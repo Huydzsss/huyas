@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+
+        function validatePhoneNumber(input_str) {
+            var re = /^\d{10}$/;
+            return re.test(input_str);
+        }
+
+        function isAgeValid(dateString, minAge) {
+            const today = new Date();
+            const inputDate = new Date(dateString);
+            const age = today.getFullYear() - inputDate.getFullYear();
+
+            // Adjust the birth date for leap years
+            const inputDateThisYear = new Date(today.getFullYear(), inputDate.getMonth(), inputDate.getDate());
+
+            if (inputDateThisYear > today) {
+                age--;
+            }
+
+            return age >= minAge;
+        }
+        
+        function checkForm()
+        {
+            let fname = document.getElementById('fname');
+            if(fname.value == '') {
+                alert('First name can not be empty');
+                return false;
+            }
+
+            let lname = document.getElementById('lname');
+            if(lname.value == '') {
+                alert('Last name can not be empty');
+                return false;
+            }
+
+            let email = document.getElementById('email');
+            if(email.value == '') {
+                alert('Email can not be empty');
+                return false;
+            }
+
+            let mobile = document.getElementById('mobile');
+            if(mobile.value == '') {
+                alert('Mobile can not be empty');
+                return false;
+            }
+
+            let dob = document.getElementById('dob');
+            if(!isAgeValid(dob.value, 18)) {
+                alert('You must be at least 18 years old.');
+                return false;
+            }
+
+            let bCheckMobile = validatePhoneNumber(mobile.value);
+            if( !bCheckMobile ) {
+                alert('Mobile number must be 10 digits');
+                return false;
+            }
+            
+
+            // Display information
+            document.getElementById('fnameText').innerText = 'First name: ' + fname.value;
+            document.getElementById('lnameText').innerText = 'Last name: ' + lname.value;
+            document.getElementById('emailText').innerText = 'Email: ' + email.value;
+            document.getElementById('mobileText').innerText = 'Mobile: ' + mobile.value;
+            document.getElementById('dobText').innerText = 'Date of Birth: ' + dob.value;
+
+            return false; // Prevent form submission
+        }
+
+    </script>
+</head>
+<body>
+
+<h1>The input formaction attribute</h1>
+
+<p>The formaction attribute specifies the URL of a file that will process the input when the form is submitted.</p>
+
+<form action="#" onsubmit="return checkForm()">
+    <label for="fname">First name:</label>
+    <input type="text" id="fname" name="fname" ><br><br>
+    <label for="lname">Last name:</label>
+    <input type="text" id="lname" name="lname" ><br><br>
+    <label for="lname">Email:</label>
+    <input type="email" id="email" name="email"><br><br>
+    <label for="mobile">Mobile:</label>
+    <input type="text" id="mobile" name="mobile"><br><br>
+    <label for="dob">Birth date:</label>
+    <input type="date" id="dob" name="dob"><br><br>
+    <input type="submit" value="Submit">
+    <input type="submit" formaction="/action_page2.php" value="Submit as Admin">
+</form>
+<p></p>
+
+<h2>This is your information</h2>
+<div>
+    <div id="fnameText"></div>
+    <div id="lnameText"></div>
+    <div id="emailText"></div>
+    <div id="mobileText"></div>
+    <div id="dobText"></div>
+</div>
+
+</body>
+</html>
+
